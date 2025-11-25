@@ -7,4 +7,5 @@ public interface FerryState {
     void loadCar(Car car) throws FerrySimulationException;
     void depart() throws FerrySimulationException;
     void arrive() throws FerrySimulationException;
+    void startUnloading() throws FerrySimulationException;
 }

@@ -15,7 +15,7 @@ public class Car {
     }
 
     private void validateParameters(String type, int weight, int area) throws FerrySimulationException {
-        if (type == null || type.trim().isEmpty()) {
+        if (type == null || type.isBlank()) {
             throw new FerrySimulationException("Car type cannot be null or empty");
         }
         if (weight <= 0) {
@@ -26,7 +26,15 @@ public class Car {
         }
     }
 
-    public String getType() { return type; }
-    public int getWeight() { return weight; }
-    public int getArea() { return area; }
+    public String getType() {
+        return type;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getArea() {
+        return area;
+    }
 }

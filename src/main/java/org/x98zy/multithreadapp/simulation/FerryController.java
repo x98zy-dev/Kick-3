@@ -32,18 +32,21 @@ public class FerryController implements Callable<Integer> {
 
             if (!ferryService.getFerry().getLoadedCars().isEmpty()) {
                 int carCount = ferryService.getFerry().getLoadedCars().size();
-                logger.info("Ferry departing with {} cars", carCount);
 
+                logger.info("Ferry departing from port A with {} cars", carCount);
                 ferryService.getFerry().getState().depart();
-                TimeUnit.MILLISECONDS.sleep(config.getInt("ferry.travel.time"));
+                TimeUnit.MILLISECONDS.sleep(config.getInt("ferry.travel.time.toB"));
 
                 ferryService.getFerry().getState().arrive();
-                logger.debug("Started unloading ferry");
-                TimeUnit.SECONDS.sleep(1);
+                ferryService.getFerry().getState().startUnloading();
+                TimeUnit.MILLISECONDS.sleep(config.getInt("ferry.unloading.time"));
+
+                TimeUnit.MILLISECONDS.sleep(config.getInt("ferry.travel.time.toA"));
+                ferryService.getFerry().getState().arrive(); // Back to port A
 
                 transportedCars += carCount;
-                ferryService.getFerry().removeAllCars();
                 emptyCycles = 0;
+                logger.info("Completed round trip. Transported {} cars total", transportedCars);
             } else {
                 emptyCycles++;
                 TimeUnit.MILLISECONDS.sleep(500);
@@ -65,7 +68,7 @@ public class FerryController implements Callable<Integer> {
             try {
                 ferryService.getFerry().getState().loadCar(car);
                 loadedAny = true;
-                logger.debug("Car {} loaded onto ferry", car.getType());
+                logger.debug("Car {} loaded onto ferry at port A", car.getType());
             } catch (FerrySimulationException e) {
                 logger.warn("Failed to load car: {}", e.getMessage());
                 ferryService.addCarToQueue(car);

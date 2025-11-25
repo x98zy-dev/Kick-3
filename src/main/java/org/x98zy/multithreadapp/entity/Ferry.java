@@ -1,5 +1,6 @@
 package org.x98zy.multithreadapp.entity;
 
+import org.x98zy.multithreadapp.exception.FerrySimulationException;
 import org.x98zy.multithreadapp.state.FerryState;
 import org.x98zy.multithreadapp.state.impl.WaitingState;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +16,7 @@ public class Ferry {
     private final int maxArea;
     private final List<Car> loadedCars = new ArrayList<>();
 
-    public Ferry(int maxCapacity, int maxArea) {
+    public Ferry(int maxCapacity, int maxArea){
         if (maxCapacity <= 0 || maxArea <= 0) {
             throw new IllegalArgumentException("Ferry capacity and area must be positive");
         }
@@ -58,8 +59,19 @@ public class Ferry {
         return loadedCars.stream().mapToInt(Car::getArea).sum();
     }
 
-    public int getMaxCapacity() { return maxCapacity; }
-    public int getMaxArea() { return maxArea; }
-    public List<Car> getLoadedCars() { return new ArrayList<>(loadedCars); }
-    public FerryState getState() { return state; }
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public int getMaxArea() {
+        return maxArea;
+    }
+
+    public List<Car> getLoadedCars() {
+        return new ArrayList<>(loadedCars);
+    }
+
+    public FerryState getState() {
+        return state;
+    }
 }

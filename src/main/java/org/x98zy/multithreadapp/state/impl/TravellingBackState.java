@@ -7,33 +7,33 @@ import org.x98zy.multithreadapp.exception.FerrySimulationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TravellingState implements FerryState {
-    private static final Logger logger = LogManager.getLogger(TravellingState.class);
+public class TravellingBackState implements FerryState {
+    private static final Logger logger = LogManager.getLogger(TravellingBackState.class);
     private final Ferry ferry;
 
-    public TravellingState(Ferry ferry) {
+    public TravellingBackState(Ferry ferry) {
         this.ferry = ferry;
-        logger.info("Ferry departed to port B");
+        logger.info("Ferry started journey back to port A");
     }
 
     @Override
     public void arrive() {
-        logger.info("Ferry arrived at port B");
-        ferry.setState(new UnloadingState(ferry));
+        logger.info("Ferry returned to port A");
+        ferry.setState(new WaitingState(ferry));
     }
 
     @Override
     public void loadCar(Car car) throws FerrySimulationException {
-        throw new FerrySimulationException("Cannot load car while travelling");
+        throw new FerrySimulationException("Cannot load car while travelling back");
     }
 
     @Override
     public void depart() throws FerrySimulationException {
-        throw new FerrySimulationException("Ferry is already travelling");
+        throw new FerrySimulationException("Ferry is already travelling back");
     }
 
     @Override
     public void startUnloading() throws FerrySimulationException {
-        throw new FerrySimulationException("Cannot unload while travelling");
+        throw new FerrySimulationException("Cannot unload while travelling back");
     }
 }

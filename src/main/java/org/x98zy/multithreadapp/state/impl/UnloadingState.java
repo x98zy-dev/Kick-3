@@ -13,14 +13,14 @@ public class UnloadingState implements FerryState {
 
     public UnloadingState(Ferry ferry) {
         this.ferry = ferry;
-        startUnloading();
     }
 
-    private void startUnloading() {
+    @Override
+    public void startUnloading() throws FerrySimulationException {
         int unloadedCount = ferry.getLoadedCars().size();
         ferry.removeAllCars();
-        logger.info("Unloaded {} cars", unloadedCount);
-        ferry.setState(new WaitingState(ferry));
+        logger.info("Unloaded {} cars at port B", unloadedCount);
+        ferry.setState(new TravellingBackState(ferry));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class UnloadingState implements FerryState {
 
     @Override
     public void arrive() throws FerrySimulationException {
-        throw new FerrySimulationException("Ferry has already arrived");
+        throw new FerrySimulationException("Ferry has already arrived at port B");
     }
 
     @Override

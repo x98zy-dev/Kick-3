@@ -19,7 +19,7 @@ public class WaitingState implements FerryState {
     public void loadCar(Car car) throws FerrySimulationException {
         if (ferry.canLoad(car)) {
             ferry.addCar(car);
-            logger.debug("Car loaded onto ferry");
+            logger.debug("Car loaded onto ferry at port A");
         } else {
             throw new FerrySimulationException("Cannot load car - ferry is full");
         }
@@ -27,12 +27,17 @@ public class WaitingState implements FerryState {
 
     @Override
     public void depart() {
-        logger.info("Ferry departing");
+        logger.info("Ferry departing from port A");
         ferry.setState(new TravellingState(ferry));
     }
 
     @Override
     public void arrive() {
-        logger.warn("Ferry is already at the dock");
+        logger.warn("Ferry is already at port A");
+    }
+
+    @Override
+    public void startUnloading() throws FerrySimulationException {
+        logger.warn("No unloading needed at port A");
     }
 }
